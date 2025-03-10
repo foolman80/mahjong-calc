@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>麻雀点数計算ツール</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+    <h1>麻雀点数計算ツール</h1>
+    <div class="tabs">
+        <button class="tablink" onclick="openTab(event, 'scoreTab')" id="defaultOpen">点数計算</button>
+        <button class="tablink" onclick="openTab(event, 'settlementTab')">精算</button>
+        <button class="tablink" onclick="openTab(event, 'scoreTableTab')">点数早見表</button>
+    </div>
+
+    <!-- 点数計算タブ -->
+    <div id="scoreTab" class="tabcontent">
+        <form id="mahjongForm">
+            <label>ルール選択:</label>
+            <select id="rule">
+                <option value="mleague">Mリーグ</option>
+                <option value="saikosen">最高位戦</option>
+                <option value="japanpro">日本プロ麻雀協会</option>
+            </select><br><br>
+
+            <label>親/子:</label>
+            <input type="radio" name="dealer" value="dealer" checked> 親
+            <input type="radio" name="dealer" value="child"> 子<br><br>
+
+            <label>翻数:</label>
+            <input type="number" id="han" min="1" value="1"><br><br>
+
+            <label>和了方法:</label>
+            <input type="radio" name="winMethod" value="tsumo" checked onchange="updateFuDisplay()"> ツモ
+            <input type="radio" name="winMethod" value="ron" onchange="updateFuDisplay()"> ロン<br><br>
+
+            <label>符数計算方法:</label>
+            <input type="radio" name="fuMethod" value="direct" checked onchange="toggleFuInput()"> 直接入力
+            <input type="radio" name="fuMethod" value="calc" onchange="toggleFuInput(); updateFuDisplay()"> 牌構成から計算<br><br>
+
+            <div id="directFu" style="display: block;">
+                <label>符数:</label>
+                <input type="number" id="fu" min="20" step="10" value="20"><br><br>
+            </div>
+
+            <div id="calcFu" style="display: none;">
+                <label>待ち（2符）:</label>
+                <input type="checkbox" id="machi" onchange="updateFuDisplay()"> ノベタン/ペンチャン/カンチャン/単騎<span id="machiFu">0符</span><br>
+                <label>雀頭（自風・場風一致）:</label>
+                <input type="checkbox" id="doubleWind" onchange="updateFuDisplay()"> ダブ東/ダブ南など（2符）<span id="doubleWindFu">0符</span><br><br>
+
+                <table id="fuTable">
+                    <tr><th></th><th>中張牌</th><th>幺九牌</th><th>合計</th></tr>
+                    <tr>
+                        <td>基本点</td>
+                        <td colspan="2"><span id="baseFu">20符</span></td>
+                        <td><span id="baseTotalFu">20符</span></td>
+                    </tr>
+                    <tr>
+                        <td>門前ツモ</td>
+                        <td colspan="2"><span id="menzenTsumoFu">0符</span></td>
+                        <td><span id="menzenTsumoTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>門前ロン</td>
+                        <td colspan="2"><span id="menzenRonFu">0符</span></td>
+                        <td><span id="menzenRonTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>待ち</td>
+                        <td colspan="2"><span id="machiTableFu">0符</span></td>
+                        <td><span id="machiTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>雀頭（自風・場風一致）</td>
+                        <td colspan="2"><span id="doubleWindTableFu">0符</span></td>
+                        <td><span id="doubleWindTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>順子</td>
+                        <td><select id="juntsuChuchan" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="juntsuChuchanFu">0符</span></td>
+                        <td><select id="juntsuYaochu" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="juntsuYaochuFu">0符</span></td>
+                        <td><span id="juntsuTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>暗刻</td>
+                        <td><select id="ankoChuchan" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="ankoChuchanFu">0符</span></td>
+                        <td><select id="ankoYaochu" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="ankoYaochuFu">0符</span></td>
+                        <td><span id="ankoTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>明刻</td>
+                        <td><select id="minkoChuchan" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="minkoChuchanFu">0符</span></td>
+                        <td><select id="minkoYaochu" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="minkoYaochuFu">0符</span></td>
+                        <td><span id="minkoTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>暗槓</td>
+                        <td><select id="ankanChuchan" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="ankanChuchanFu">0符</span></td>
+                        <td><select id="ankanYaochu" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="ankanYaochuFu">0符</span></td>
+                        <td><span id="ankanTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>明槓</td>
+                        <td><select id="minkanChuchan" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="minkanChuchanFu">0符</span></td>
+                        <td><select id="minkanYaochu" onchange="updateFuDisplay()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select> <span id="minkanYaochuFu">0符</span></td>
+                        <td><span id="minkanTotalFu">0符</span></td>
+                    </tr>
+                    <tr>
+                        <td>合計</td>
+                        <td><span id="chuchanTotalFu">0符</span></td>
+                        <td><span id="yaochuTotalFu">0符</span></td>
+                        <td><span id="grandTotalFu">20符</span></td>
+                    </tr>
+                </table><br>
+            </div>
+
+            <button type="button" onclick="calculatePoints(false)">通常計算</button>
+            <button type="button" onclick="calculatePoints(true, 'chitoi')">七対子</button>
+            <button type="button" onclick="calculatePoints(true, 'pinful')">平和</button>
+            <button type="button" onclick="calculatePoints(true, 'yakuman')">役満</button><br><br>
+
+            <div id="pinfulOptions" style="display: none;">
+                <label>平和の和了方法:</label>
+                <input type="radio" name="pinfulMethod" value="ron" checked> ロン
+                <input type="radio" name="pinfulMethod" value="tsumo"> ツモ<br><br>
+            </div>
+
+            <div id="result"></div>
+        </form>
+    </div>
+
+    <!-- 精算タブ -->
+    <div id="settlementTab" class="tabcontent">
+        <form id="settlementForm">
+            <label>X点持ち:</label>
+            <input type="number" id="startPoints" value="25000"><br><br>
+            <label>Y点返し:</label>
+            <input type="number" id="returnPoints" value="30000"><br><br>
+            <label>レート (1点=):</label>
+            <input type="number" id="rate" value="10"> 円<br><br>
+
+            <label>ウマ形式:</label>
+            <select id="umaType">
+                <option value="mleague">Mリーグ形式 (30-10-(-10)-(-30))</option>
+                <option value="10-5">10-5形式 (10-5-(-5)-(-10))</option>
+                <option value="20-10">20-10形式 (20-10-(-10)-(-20))</option>
+                <option value="30-15">30-15形式 (30-15-(-15)-(-30))</option>
+            </select><br><br>
+
+            <table id="settlementTable">
+                <tr><th>名前</th><th>点数</th><th>素点</th><th>オカ</th><th>ウマ</th><th>合計</th><th>金額</th></tr>
+                <tr>
+                    <td><input type="text" id="name1" value="プレイヤー1"></td>
+                    <td><input type="number" id="score1" value="0"></td>
+                    <td><span id="baseResult1"></span></td>
+                    <td><span id="okaResult1"></span></td>
+                    <td><span id="umaResult1"></span></td>
+                    <td><span id="totalResult1"></span></td>
+                    <td><span id="moneyResult1"></span></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="name2" value="プレイヤー2"></td>
+                    <td><input type="number" id="score2" value="0"></td>
+                    <td><span id="baseResult2"></span></td>
+                    <td><span id="okaResult2"></span></td>
+                    <td><span id="umaResult2"></span></td>
+                    <td><span id="totalResult2"></span></td>
+                    <td><span id="moneyResult2"></span></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="name3" value="プレイヤー3"></td>
+                    <td><input type="number" id="score3" value="0"></td>
+                    <td><span id="baseResult3"></span></td>
+                    <td><span id="okaResult3"></span></td>
+                    <td><span id="umaResult3"></span></td>
+                    <td><span id="totalResult3"></span></td>
+                    <td><span id="moneyResult3"></span></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="name4" value="プレイヤー4"></td>
+                    <td><input type="number" id="score4" value="0"></td>
+                    <td><span id="baseResult4"></span></td>
+                    <td><span id="okaResult4"></span></td>
+                    <td><span id="umaResult4"></span></td>
+                    <td><span id="totalResult4"></span></td>
+                    <td><span id="moneyResult4"></span></td>
+                </tr>
+            </table><br>
+
+            <button type="button" onclick="calculateSettlement()">計算</button><br><br>
+        </form>
+    </div>
+
+    <!-- 点数早見表タブ -->
+    <div id="scoreTableTab" class="tabcontent">
+        <h2>点数早見表</h2>
+        <table id="scoreQuickTable">
+            <tr><th>符\翻</th><th>1翻</th><th>2翻</th><th>3翻</th><th>4翻</th><th>5翻</th></tr>
+            <tr><th colspan="6">親</th></tr>
+            <tr><td>20符</td><td>—</td><td>1500<br>(500)</td><td>2900<br>(1000)</td><td>5800<br>(2000)</td><td rowspan="6">満貫<br>12000<br>(4000)</td></tr>
+            <tr><td>30符</td><td>1500</td><td>2900<br>(1000)</td><td>5800<br>(2000)</td><td>11600<br>(3900)</td></tr>
+            <tr><td>40符</td><td>2000</td><td>3900<br>(1300)</td><td>7700<br>(2600)</td><td>満貫<br>12000<br>(4000)</td></tr>
+            <tr><td>50符</td><td>2400</td><td>4800<br>(1600)</td><td>9600<br>(3200)</td><td>満貫<br>12000<br>(4000)</td></tr>
+            <tr><td>60符</td><td>2900</td><td>5800<br>(2000)</td><td>11600<br>(3900)</td><td>満貫<br>12000<br>(4000)</td></tr>
+            <tr><td>70符</td><td>3400</td><td>6800<br>(2300)</td><td>満貫<br>12000<br>(4000)</td><td>満貫<br>12000<br>(4000)</td></tr>
+            <tr><th colspan="6">子</th></tr>
+            <tr><td>20符</td><td>—</td><td>1000<br>(500-300)</td><td>2000<br>(1000-500)</td><td>3900<br>(2000-1000)</td><td rowspan="6">満貫<br>8000<br>(4000-2000)</td></tr>
+            <tr><td>30符</td><td>1000</td><td>2000<br>(1000-500)</td><td>3900<br>(2000-1000)</td><td>7700<br>(4000-2000)</td></tr>
+            <tr><td>40符</td><td>1300</td><td>2600<br>(1300-700)</td><td>5200<br>(2600-1300)</td><td>満貫<br>8000<br>(4000-2000)</td></tr>
+            <tr><td>50符</td><td>1600</td><td>3200<br>(1600-800)</td><td>6400<br>(3200-1600)</td><td>満貫<br>8000<br>(4000-2000)</td></tr>
+            <tr><td>60符</td><td>2000</td><td>3900<br>(2000-1000)</td><td>7700<br>(4000-2000)</td><td>満貫<br>8000<br>(4000-2000)</td></tr>
+            <tr><td>70符</td><td>2300</td><td>4500<br>(2300-1200)</td><td>満貫<br>8000<br>(4000-2000)</td><td>満貫<br>8000<br>(4000-2000)</td></tr>
+        </table>
+        <p>※ 表記: ロン点 / ツモ点 (子支払 / 子支払-子支払)</p>
+        <p>※ 満貫以上: 6-7翻=18000(親)/12000(子)、8-10翻=24000(親)/16000(子)、11-12翻=36000(親)/24000(子)、13翻以上=48000(親)/32000(子)</p>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("defaultOpen").click();
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+h1 {
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.tabs {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tablink {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 1em;
+}
+
+.tablink:hover {
+    background-color: #ddd;
+}
+
+.tablink.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+input, select, button {
+    margin: 5px 0;
+    padding: 5px;
+    font-size: 0.9em;
+    width: auto;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+@media screen and (max-width: 600px) {
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tablink {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    table, th, td {
+        font-size: 0.8em;
+        padding: 5px;
+    }
+
+    input, select, button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #fuTable select {
+        width: 60px;
+    }
+
+    #settlementTable input[type="text"], #settlementTable input[type="number"] {
+        width: 80px;
+    }
+}
