@@ -29,19 +29,25 @@
             </select><br><br>
 
             <label>親/子:</label>
-            <input type="radio" name="dealer" value="dealer" checked> 親
-            <input type="radio" name="dealer" value="child"> 子<br><br>
+            <span class="radio-group">
+                <input type="radio" name="dealer" value="dealer" checked id="dealer"><label for="dealer">親</label>
+                <input type="radio" name="dealer" value="child" id="child"><label for="child">子</label>
+            </span><br><br>
 
             <label>翻数:</label>
             <input type="number" id="han" min="1" value="1"><br><br>
 
             <label>和了方法:</label>
-            <input type="radio" name="winMethod" value="tsumo" checked onchange="updateFuDisplay()"> ツモ
-            <input type="radio" name="winMethod" value="ron" onchange="updateFuDisplay()"> ロン<br><br>
+            <span class="radio-group">
+                <input type="radio" name="winMethod" value="tsumo" checked id="tsumo" onchange="updateFuDisplay()"><label for="tsumo">ツモ</label>
+                <input type="radio" name="winMethod" value="ron" id="ron" onchange="updateFuDisplay()"><label for="ron">ロン</label>
+            </span><br><br>
 
             <label>符数計算方法:</label>
-            <input type="radio" name="fuMethod" value="direct" checked onchange="toggleFuInput()"> 直接入力
-            <input type="radio" name="fuMethod" value="calc" onchange="toggleFuInput(); updateFuDisplay()"> 牌構成から計算<br><br>
+            <span class="radio-group">
+                <input type="radio" name="fuMethod" value="direct" checked id="direct" onchange="toggleFuInput()"><label for="direct">直接入力</label>
+                <input type="radio" name="fuMethod" value="calc" id="calc" onchange="toggleFuInput(); updateFuDisplay()"><label for="calc">牌構成から計算</label>
+            </span><br><br>
 
             <div id="directFu" style="display: block;">
                 <label>符数:</label>
@@ -127,8 +133,10 @@
 
             <div id="pinfulOptions" style="display: none;">
                 <label>平和の和了方法:</label>
-                <input type="radio" name="pinfulMethod" value="ron" checked> ロン
-                <input type="radio" name="pinfulMethod" value="tsumo"> ツモ<br><br>
+                <span class="radio-group">
+                    <input type="radio" name="pinfulMethod" value="ron" checked id="pinfulRon"><label for="pinfulRon">ロン</label>
+                    <input type="radio" name="pinfulMethod" value="tsumo" id="pinfulTsumo"><label for="pinfulTsumo">ツモ</label>
+                </span><br><br>
             </div>
 
             <div id="result"></div>
@@ -143,7 +151,7 @@
             <label>Y点返し:</label>
             <input type="number" id="returnPoints" value="30000"><br><br>
             <label>レート (1点=):</label>
-            <input type="number" id="rate" value="10"> 円<br><br>
+            <input type="number" id="rate" value="10"> ポイント<br><br>
 
             <label>ウマ形式:</label>
             <select id="umaType">
@@ -154,7 +162,7 @@
             </select><br><br>
 
             <table id="settlementTable">
-                <tr><th>名前</th><th>点数</th><th>素点</th><th>オカ</th><th>ウマ</th><th>合計</th><th>金額</th></tr>
+                <tr><th>名前</th><th>点数</th><th>素点</th><th>オカ</th><th>ウマ</th><th>合計</th><th>ポイント</th></tr>
                 <tr>
                     <td><input type="text" id="name1" value="プレイヤー1"></td>
                     <td><input type="number" id="score1" value="0"></td>

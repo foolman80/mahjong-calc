@@ -234,7 +234,7 @@ function calculateSettlement() {
         document.getElementById(`okaResult${i + 1}`).innerText = `${okaPoints[i].toFixed(1)}`;
         document.getElementById(`umaResult${i + 1}`).innerText = `${umaPoints[i].toFixed(1)}`;
         document.getElementById(`totalResult${i + 1}`).innerText = `${totalPoints[i].toFixed(1)}`;
-        document.getElementById(`moneyResult${i + 1}`).innerText = `${ratedPoints[i].toFixed(0)}円`;
+        document.getElementById(`moneyResult${i + 1}`).innerText = `${ratedPoints[i].toFixed(0)}ポイント`;
     }
 }
 
