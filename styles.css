@@ -7,6 +7,7 @@ body {
     overflow-x: hidden;
     background-color: #f5f5f5;
     color: #000000;
+    line-height: 1.6;
 }
 
 /* ダークモード */
@@ -20,6 +21,7 @@ body {
 h1, h2 {
     font-size: 1.5em;
     text-align: center;
+    margin-bottom: 15px;
 }
 
 .tabs {
@@ -40,7 +42,6 @@ h1, h2 {
 
 .tablink {
     background-color: inherit;
-    float: left;
     border: none;
     outline: none;
     cursor: pointer;
@@ -48,6 +49,8 @@ h1, h2 {
     transition: 0.3s;
     font-size: 1em;
     color: #000000;
+    flex: 1 1 auto;
+    text-align: center;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -127,6 +130,7 @@ input, select, button {
     background-color: #ffffff;
     color: #000000;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -142,16 +146,20 @@ button {
     color: white;
     border: none;
     cursor: pointer;
+    padding: 10px 20px;
 }
 
 button:hover {
     background-color: #45a049;
 }
 
+/* ラジオボタンの修正 */
 .radio-group {
-    display: inline-flex;
-    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
+    align-items: center;
+    margin: 5px 0;
 }
 
 .radio-group input[type="radio"] {
@@ -160,16 +168,31 @@ button:hover {
 
 .radio-group label {
     margin-right: 15px;
+    white-space: nowrap;
 }
 
-@media screen and (max-width: 600px) {
+/* レスポンシブデザイン */
+@media screen and (max-width: 480px) { /* iPhone 14 (393px) など */
+    body {
+        padding: 10px;
+    }
+
+    h1, h2 {
+        font-size: 1.2em;
+    }
+
     .tabs {
         flex-direction: column;
     }
 
     .tablink {
         width: 100%;
-        box-sizing: border-box;
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .tabcontent {
+        padding: 10px;
     }
 
     table, th, td {
@@ -179,19 +202,69 @@ button:hover {
 
     input, select, button {
         width: 100%;
-        box-sizing: border-box;
+        font-size: 0.8em;
     }
 
     #fuTable select {
-        width: 60px;
+        width: 50px;
     }
 
     #settlementTable input[type="text"], #settlementTable input[type="number"] {
-        width: 80px;
+        width: 70px;
     }
 
     .radio-group {
-        flex-wrap: nowrap;
+        flex-direction: column;
+        align-items: flex-start;
         gap: 5px;
+    }
+
+    .radio-group label {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) { /* iPad Mini (744px) など */
+    .tabs {
+        flex-direction: row;
+    }
+
+    .tablink {
+        flex: 1 1 33%;
+    }
+
+    input, select {
+        width: auto;
+    }
+
+    button {
+        width: auto;
+    }
+
+    .radio-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) { /* iPad Air (820px) など */
+    .tablink {
+        flex: 1 1 25%;
+    }
+
+    .radio-group {
+        flex-direction: row;
+    }
+}
+
+@media screen and (min-width: 1025px) { /* デスクトップ */
+    .tabcontent {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .radio-group {
+        flex-direction: row;
     }
 }
