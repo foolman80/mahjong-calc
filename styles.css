@@ -165,24 +165,22 @@ button:hover {
 /* ラジオボタンの修正 */
 .radio-group {
     display: flex;
-    flex-wrap: nowrap; /* 改行を防止 */
-    gap: 3px; /* 間隔をさらに縮小 */
+    flex-wrap: wrap; /* 必要に応じて折り返し */
+    gap: 2px; /* 間隔を最小化 */
     align-items: center;
     margin: 5px 0;
     width: 100%;
-    overflow-x: auto; /* 幅を超える場合に横スクロール */
-    white-space: nowrap; /* 全体を1行に */
 }
 
 .radio-group input[type="radio"] {
-    margin: 0 2px 0 0;
+    margin: 0 1px 0 0; /* ラジオボタンとテキストの間隔を最小化 */
     flex-shrink: 0;
 }
 
 .radio-group label {
-    margin: 0 6px 0 0; /* 余白をさらに縮小 */
+    margin: 0 4px 0 0; /* 余白をさらに縮小 */
     white-space: nowrap;
-    font-size: 0.75em; /* フォントサイズを縮小 */
+    font-size: 0.7em; /* フォントサイズを縮小 */
     flex-shrink: 0;
 }
 
@@ -230,14 +228,13 @@ button:hover {
     }
 
     .radio-group {
-        flex-wrap: nowrap;
-        gap: 2px;
-        overflow-x: auto;
+        flex-wrap: wrap;
+        gap: 1px; /* モバイルでさらに縮小 */
     }
 
     .radio-group label {
-        margin-right: 4px;
-        font-size: 0.65em; /* モバイルでさらに縮小 */
+        margin-right: 3px;
+        font-size: 0.6em; /* さらに小さく */
     }
 }
 
@@ -256,14 +253,13 @@ button:hover {
     }
 
     .radio-group {
-        flex-wrap: nowrap;
-        gap: 2px;
-        overflow-x: auto;
+        flex-wrap: wrap;
+        gap: 1px;
     }
 
     .radio-group label {
-        margin-right: 4px;
-        font-size: 0.65em;
+        margin-right: 3px;
+        font-size: 0.6em;
     }
 }
 
@@ -281,12 +277,12 @@ button:hover {
     }
 
     .radio-group {
-        flex-wrap: nowrap;
-        gap: 3px;
+        flex-wrap: wrap;
+        gap: 2px;
     }
 
     .radio-group label {
-        font-size: 0.75em;
+        font-size: 0.7em;
     }
 }
 
@@ -298,8 +294,8 @@ button:hover {
     }
 
     .radio-group {
-        flex-wrap: nowrap;
-        gap: 3px;
+        flex-wrap: wrap;
+        gap: 2px;
     }
 
     input, select, button {
