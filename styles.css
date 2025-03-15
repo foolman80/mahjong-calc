@@ -94,7 +94,7 @@ h1, h2 {
     box-sizing: border-box;
     max-height: calc(100vh - 150px);
     overflow-y: auto;
-    overflow-x: hidden; /* 横スクロールを防止 */
+    overflow-x: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -166,23 +166,23 @@ button:hover {
 /* ラジオボタンの修正 */
 .radio-group {
     display: flex;
-    flex-wrap: wrap; /* 折り返しを許可 */
-    gap: 1px; /* 間隔を最小化 */
+    flex-wrap: wrap; /* 画面幅に収まるよう折り返し */
+    gap: 5px; /* 自然な間隔 */
     align-items: center;
     margin: 5px 0;
-    max-width: 100%; /* 画面幅を超えない */
-    overflow-x: hidden; /* 横スクロールを防止 */
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .radio-group input[type="radio"] {
-    margin: 0 1px 0 0; /* 最小限の間隔 */
+    margin: 0 2px 0 0;
     flex-shrink: 0;
 }
 
 .radio-group label {
-    margin: 0 3px 0 0; /* 余白を最小化 */
+    margin: 0 5px 0 0;
     white-space: nowrap;
-    font-size: 0.6em; /* フォントサイズをさらに縮小 */
+    font-size: 0.8em; /* サイト全体と統一 */
     flex-shrink: 0;
 }
 
@@ -212,13 +212,13 @@ button:hover {
     }
 
     table, th, td {
-        font-size: 0.7em;
+        font-size: 0.8em;
         padding: 3px;
     }
 
     input, select {
         width: 100%;
-        font-size: 0.7em;
+        font-size: 0.8em;
     }
 
     #fuTable select {
@@ -231,14 +231,12 @@ button:hover {
 
     .radio-group {
         flex-wrap: wrap;
-        gap: 1px;
-        max-width: 100%;
-        overflow-x: hidden;
+        gap: 3px; /* モバイルで少し縮小 */
     }
 
     .radio-group label {
-        margin-right: 2px;
-        font-size: 0.55em; /* さらに小さく */
+        margin-right: 4px;
+        font-size: 0.8em;
     }
 }
 
@@ -258,14 +256,12 @@ button:hover {
 
     .radio-group {
         flex-wrap: wrap;
-        gap: 1px;
-        max-width: 100%;
-        overflow-x: hidden;
+        gap: 3px;
     }
 
     .radio-group label {
-        margin-right: 2px;
-        font-size: 0.55em;
+        margin-right: 4px;
+        font-size: 0.8em;
     }
 }
 
@@ -284,11 +280,11 @@ button:hover {
 
     .radio-group {
         flex-wrap: wrap;
-        gap: 2px;
+        gap: 5px;
     }
 
     .radio-group label {
-        font-size: 0.6em;
+        font-size: 0.8em;
     }
 }
 
@@ -301,7 +297,7 @@ button:hover {
 
     .radio-group {
         flex-wrap: wrap;
-        gap: 2px;
+        gap: 5px;
     }
 
     input, select, button {
@@ -309,6 +305,6 @@ button:hover {
     }
 
     .radio-group label {
-        font-size: 0.7em;
+        font-size: 0.8em;
     }
 }
