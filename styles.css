@@ -2,12 +2,14 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
-    max-width: 100%;
+    padding: 10px;
+    max-width: 100vw;
     overflow-x: hidden;
     background-color: #f5f5f5;
     color: #000000;
-    line-height: 1.6;
+    line-height: 1.4;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 /* ダークモード */
@@ -19,9 +21,9 @@ body {
 }
 
 h1, h2 {
-    font-size: 1.5em;
+    font-size: 1.2em;
     text-align: center;
-    margin-bottom: 15px;
+    margin: 10px 0;
 }
 
 .tabs {
@@ -31,6 +33,7 @@ h1, h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    width: 100%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,12 +48,13 @@ h1, h2 {
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
+    padding: 10px;
     transition: 0.3s;
-    font-size: 1em;
+    font-size: 0.9em;
     color: #000000;
-    flex: 1 1 auto;
+    flex: 1 1 33%;
     text-align: center;
+    box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -81,11 +85,15 @@ h1, h2 {
 
 .tabcontent {
     display: none;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-top: none;
     background-color: #ffffff;
     color: #000000;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: calc(100vh - 150px); /* タブと余白を考慮 */
+    overflow-y: auto;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -99,14 +107,14 @@ h1, h2 {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 5px;
     text-align: center;
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 
 th {
@@ -125,8 +133,8 @@ th {
 input, select, button {
     margin: 5px 0;
     padding: 5px;
-    font-size: 0.9em;
-    width: auto;
+    font-size: 0.8em;
+    width: 100%;
     background-color: #ffffff;
     color: #000000;
     border: 1px solid #ccc;
@@ -146,7 +154,8 @@ button {
     color: white;
     border: none;
     cursor: pointer;
-    padding: 10px 20px;
+    padding: 8px 15px;
+    width: auto;
 }
 
 button:hover {
@@ -157,28 +166,30 @@ button:hover {
 .radio-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 5px; /* 間隔を縮小 */
     align-items: center;
     margin: 5px 0;
+    width: 100%;
 }
 
 .radio-group input[type="radio"] {
-    margin: 0 5px 0 0;
+    margin: 0 2px 0 0; /* ラジオボタンとテキストの間隔を縮小 */
 }
 
 .radio-group label {
-    margin-right: 15px;
+    margin-right: 8px; /* 余白を縮小 */
     white-space: nowrap;
+    font-size: 0.8em;
 }
 
 /* レスポンシブデザイン */
-@media screen and (max-width: 480px) { /* iPhone 14 (393px) など */
+@media screen and (max-width: 480px) and (orientation: portrait) { /* iPhone 14 Pro 縦 */
     body {
-        padding: 10px;
+        padding: 5px;
     }
 
     h1, h2 {
-        font-size: 1.2em;
+        font-size: 1em;
     }
 
     .tabs {
@@ -187,45 +198,67 @@ button:hover {
 
     .tablink {
         width: 100%;
-        padding: 10px;
-        font-size: 0.9em;
+        padding: 8px;
+        font-size: 0.8em;
     }
 
     .tabcontent {
-        padding: 10px;
+        padding: 5px;
+        max-height: calc(100vh - 120px);
     }
 
     table, th, td {
-        font-size: 0.8em;
-        padding: 5px;
+        font-size: 0.7em;
+        padding: 3px;
     }
 
-    input, select, button {
+    input, select {
         width: 100%;
-        font-size: 0.8em;
+        font-size: 0.7em;
     }
 
     #fuTable select {
-        width: 50px;
+        width: 40px;
     }
 
     #settlementTable input[type="text"], #settlementTable input[type="number"] {
-        width: 70px;
+        width: 60px;
     }
 
     .radio-group {
         flex-direction: column;
         align-items: flex-start;
-        gap: 5px;
+        gap: 3px;
     }
 
     .radio-group label {
         margin-right: 0;
-        margin-bottom: 5px;
+        margin-bottom: 3px;
     }
 }
 
-@media screen and (min-width: 481px) and (max-width: 768px) { /* iPad Mini (744px) など */
+@media screen and (max-width: 480px) and (orientation: landscape) { /* iPhone 14 Pro 横 */
+    .tabs {
+        flex-direction: row;
+    }
+
+    .tablink {
+        flex: 1 1 33%;
+        padding: 5px;
+    }
+
+    .tabcontent {
+        max-height: calc(100vh - 100px);
+    }
+
+    .radio-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) { /* iPad Mini など */
     .tabs {
         flex-direction: row;
     }
@@ -234,37 +267,30 @@ button:hover {
         flex: 1 1 33%;
     }
 
-    input, select {
-        width: auto;
-    }
-
-    button {
-        width: auto;
+    .tabcontent {
+        max-height: calc(100vh - 130px);
     }
 
     .radio-group {
         flex-direction: row;
         flex-wrap: wrap;
+        gap: 5px;
     }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1024px) { /* iPad Air (820px) など */
-    .tablink {
-        flex: 1 1 25%;
-    }
-
-    .radio-group {
-        flex-direction: row;
-    }
-}
-
-@media screen and (min-width: 1025px) { /* デスクトップ */
+@media screen and (min-width: 769px) { /* iPad Air, デスクトップ */
     .tabcontent {
-        max-width: 1200px;
+        max-width: 800px;
         margin: 0 auto;
+        max-height: calc(100vh - 150px);
     }
 
     .radio-group {
         flex-direction: row;
+        gap: 5px;
+    }
+
+    input, select, button {
+        width: auto;
     }
 }
